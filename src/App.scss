@@ -1,5 +1,22 @@
 .App {
-  text-align: center;
+  // text-align: center;
+  background-color: #f3f3f3;
+  width: 100%;
+  display: flex;
+
+  .layout {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: calc(100% - 300px);
+    background-color: #f3f3f3;
+    height: 100%;
+    overflow: auto;
+
+    .page {
+      padding: 1.2rem 2rem;
+    }
+  }
 }
 
 .App-logo {
