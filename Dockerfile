@@ -9,7 +9,7 @@ RUN yarn install
 
 COPY . .
 
-# RUN yarn build
+RUN yarn build
 
 HEALTHCHECK CMD curl --fail http://localhost || exit 1
 EXPOSE 80
