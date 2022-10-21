@@ -1,7 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
-import { DashboardIcon, SettingsIcon } from "evergreen-ui";
+import {
+  DashboardIcon,
+  SettingsIcon,
+  PageLayoutIcon,
+  AntennaIcon,
+  Popover,
+  Menu,
+  ApplicationIcon,
+  ThirdPartyIcon,
+} from "evergreen-ui";
 import "../styles/sidebar.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 const sidebarNavItems = [
@@ -10,6 +19,32 @@ const sidebarNavItems = [
     icon: <DashboardIcon />,
     to: "/",
     section: "",
+  },
+  {
+    display: "Content Block",
+    icon: <PageLayoutIcon />,
+    to: "#",
+    section: "block",
+    sub: [
+      {
+        display: "Logo",
+        icon: AntennaIcon,
+        to: "/block/logo",
+        section: "logo",
+      },
+      {
+        display: "Story",
+        icon: ApplicationIcon,
+        to: "/block/story",
+        section: "story",
+      },
+      {
+        display: "Character",
+        icon: ThirdPartyIcon,
+        to: "/block/character",
+        section: "character",
+      },
+    ],
   },
   {
     display: "Setting",
@@ -25,6 +60,7 @@ export function Sidebar() {
   const sidebarRef = useRef<HTMLDivElement | any>();
   const indicatorRef = useRef<HTMLDivElement | any>();
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(() => {
@@ -59,6 +95,48 @@ export function Sidebar() {
           }}
         ></div>
         {sidebarNavItems.map((item, index) => {
+          if (item.sub) {
+            return (
+              <Popover
+                key={index}
+                content={
+                  <Menu>
+                    <Menu.Group>
+                      {item.sub.map((x, i) => {
+                        return (
+                          <Menu.Item
+                            key={i}
+                            icon={x.icon}
+                            onClick={() => navigate(x.to)}
+                          >
+                            {x.display}
+                          </Menu.Item>
+                        );
+                      })}
+                    </Menu.Group>
+                  </Menu>
+                }
+              >
+                <Link
+                  to={item.to}
+                  key={index}
+                  style={{ textDecoration: "none" }}
+                >
+                  <div
+                    className={`sidebar__menu__item ${
+                      activeIndex === index ? "active" : ""
+                    }`}
+                  >
+                    <div className="sidebar__menu__item__icon">{item.icon}</div>
+                    <div className="sidebar__menu__item__text">
+                      {item.display}
+                    </div>
+                  </div>
+                </Link>
+              </Popover>
+            );
+          }
+
           return (
             <Link to={item.to} key={index} style={{ textDecoration: "none" }}>
               <div

@@ -7,6 +7,10 @@ import { auth } from "./service/firebase";
 import { LoginPage } from "./page/LoginPage";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { SettingPage } from "./page/SettingPage";
+import { LogoPage } from "./page/LogoPage";
+import { DialogComponent } from "./components/DialogComponent";
+import { Modal } from "./hook/modal";
+import { StoryPage } from "./page/StoryPage";
 
 function AppLayout(props: PropsWithChildren<{}>) {
   return (
@@ -35,8 +39,11 @@ function VerifyAuth() {
 
   return (
     <AppLayout>
+      <DialogComponent ref={(t) => Modal.setModal(t)} />
       <Routes>
         <Route path="/" element={<Blank />} />
+        <Route path="/block/logo" element={<LogoPage />} />
+        <Route path="/block/story" element={<StoryPage />} />
         <Route path="/setting" element={<SettingPage />} />
       </Routes>
     </AppLayout>
