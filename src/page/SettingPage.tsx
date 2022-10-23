@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, TextInputField } from "evergreen-ui";
+import { Button, TextInputField, toaster } from "evergreen-ui";
 import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import CardHeader from "react-bootstrap/esm/CardHeader";
 import { Layout } from "../components/Layout";
 import { UploadFile } from "../components/UploadFile";
-import { setDoc, getDoc, doc } from "firebase/firestore";
-import { firestore } from "../service/firebase";
+import { TextEditor } from "../components/TextEditor";
+import { firebase_store } from "../service/firebase_store";
+import { Modal } from "../hook/modal";
 
 interface PropsSettingLinkInput {
   twitter?: string | null;
@@ -22,10 +23,12 @@ interface PropsSettingInput {
     text?: string;
     background?: string;
   } | null;
+  footer?: {
+    content?: string[] | [];
+  };
 }
 
 export function SettingPage() {
-  const docRef = doc(firestore, "setting", "sQBZqxpwn45QrmH5tzhJ");
   const [setting, setSetting] = useState<PropsSettingInput | null>(null);
   const [background, setBackground] = useState<any[]>(["", "", ""]);
   const [link, setLink] = useState<PropsSettingLinkInput | null>({
@@ -33,18 +36,23 @@ export function SettingPage() {
     twitter: "",
     discord: "",
   });
+  const [footer, setFooter] = useState({ content: "" });
 
   const getData = async () => {
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      setSetting(docSnap.data());
-      setLink(docSnap.data().link);
-      setBackground(docSnap.data().background);
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-    }
+    firebase_store.getData("setting", "sQBZqxpwn45QrmH5tzhJ").then((res) => {
+      if (!!res.status) {
+        setSetting(res.data);
+        setLink(res.data.link);
+        setBackground(res.data.background);
+        setFooter(
+          res.data.footer
+            ? res.data.footer
+            : {
+                content: "",
+              }
+        );
+      }
+    });
   };
 
   useEffect(() => {
@@ -52,20 +60,37 @@ export function SettingPage() {
   }, []);
 
   const onClickSave = async () => {
-    const data = {
-      logo: setting?.logo,
-      block: setting?.block,
-      link,
-      background,
-    };
-    console.log(data);
-    setDoc(docRef, data)
-      .then((docRef) => {
-        console.log("Entire Document has been updated successfully");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    Modal.dialog({
+      message: "Are you sure want to save data?",
+      title: "Confirm content block",
+      buttons: [
+        {
+          title: "Yes",
+          class: "primary",
+          onPress: () => {
+            const data = {
+              logo: setting?.logo,
+              block: setting?.block,
+              link,
+              background,
+              footer,
+            };
+            firebase_store
+              .updateData("setting", "sQBZqxpwn45QrmH5tzhJ", data)
+              .then((res) => {
+                if (!!res.status) {
+                  toaster.success(res.message);
+                }
+              });
+          },
+        },
+        {
+          title: "Cancel",
+          class: "danger",
+          onPress: () => {},
+        },
+      ],
+    });
   };
 
   return (
@@ -235,6 +260,31 @@ export function SettingPage() {
                   })
                 }
               />
+            </Card.Body>
+          </Card>
+          <br />
+          <Card>
+            <CardHeader className="bg-primary text-light">Footer</CardHeader>
+            <Card.Body>
+              <label
+                style={{
+                  color: "#101840",
+                  fontWeight: 500,
+                  fontSize: 14,
+                }}
+              >
+                Content
+              </label>
+              <TextEditor
+                value={footer.content}
+                setValue={(e: any) => {
+                  setFooter({
+                    ...footer,
+                    content: e,
+                  });
+                }}
+              />
+              <br />
             </Card.Body>
           </Card>
           <br />

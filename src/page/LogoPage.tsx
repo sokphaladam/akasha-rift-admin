@@ -1,14 +1,26 @@
-import { Button, TextInput } from "evergreen-ui";
-import React, { useState } from "react";
+import { Button, TextInput, toaster } from "evergreen-ui";
+import React, { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import { Layout } from "../components/Layout";
 import { TextEditor } from "../components/TextEditor";
 import { UploadFile } from "../components/UploadFile";
 import { Modal } from "../hook/modal";
+import { firebase_store } from "../service/firebase_store";
 import { LogoProp } from "../types/logo";
 
 export function LogoPage() {
   const [logo, setLogo] = useState<LogoProp>({});
+
+  const getData = async () => {
+    const data = await firebase_store.getData("content_block", "LOGO");
+    if (!!data.status) {
+      setLogo(data.data);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   const onChangeValue = (field: any, val: any) => {
     const spt = (field as string).split(".");
@@ -38,6 +50,16 @@ export function LogoPage() {
           title: "Yes",
           class: "primary",
           onPress: () => {
+            firebase_store
+              .updateData("content_block", "LOGO", logo)
+              .then((res) => {
+                if (!!res.status) {
+                  toaster.success(res.message);
+                }
+              })
+              .catch((err) => {
+                toaster.danger(err.message);
+              });
             console.log(logo);
           },
         },

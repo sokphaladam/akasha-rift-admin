@@ -1,14 +1,23 @@
-import { Button } from "evergreen-ui";
-import React, { useState } from "react";
+import { Button, toaster } from "evergreen-ui";
+import React, { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import { Layout } from "../components/Layout";
 import { TextEditor } from "../components/TextEditor";
 import { UploadFile } from "../components/UploadFile";
 import { Modal } from "../hook/modal";
+import { firebase_store } from "../service/firebase_store";
 import { StoryProp } from "../types/story";
 
 export function StoryPage() {
   const [story, setStory] = useState<StoryProp>({});
+
+  useEffect(() => {
+    firebase_store.getData("content_block", "STORY").then((res) => {
+      if (!!res.status) {
+        setStory(res.data);
+      }
+    });
+  }, []);
 
   const onChangeValue = (field: any, val: any) => {
     setStory({
@@ -26,7 +35,16 @@ export function StoryPage() {
           title: "Yes",
           class: "primary",
           onPress: () => {
-            console.log(story);
+            firebase_store
+              .updateData("content_block", "STORY", story)
+              .then((res) => {
+                if (res.status) {
+                  toaster.success(res.message);
+                }
+              })
+              .catch((err) => {
+                toaster.danger(err.message);
+              });
           },
         },
         {

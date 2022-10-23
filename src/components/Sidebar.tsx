@@ -8,6 +8,10 @@ import {
   Menu,
   ApplicationIcon,
   ThirdPartyIcon,
+  InheritedGroupIcon,
+  LayoutHierarchyIcon,
+  MugshotIcon,
+  HelpIcon,
 } from "evergreen-ui";
 import "../styles/sidebar.scss";
 import { Link, useNavigate } from "react-router-dom";
@@ -41,8 +45,32 @@ const sidebarNavItems = [
       {
         display: "Character",
         icon: ThirdPartyIcon,
-        to: "/block/character",
-        section: "character",
+        to: "/block/_bcharacter",
+        section: "_bcharacter",
+      },
+      {
+        display: "Roadmap",
+        icon: LayoutHierarchyIcon,
+        to: "/block/_broadmap",
+        section: "_broadmap",
+      },
+      {
+        display: "team",
+        icon: MugshotIcon,
+        to: "/block/_bteam",
+        section: "_bteam",
+      },
+      {
+        display: "FAQ",
+        icon: HelpIcon,
+        to: "/block/_bfaq",
+        section: "_bfaq",
+      },
+      {
+        display: "Join the play",
+        icon: InheritedGroupIcon,
+        to: "/block/join_team",
+        section: "join_team",
       },
     ],
   },
