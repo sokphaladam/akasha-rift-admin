@@ -1,4 +1,4 @@
-import { getDoc, doc, Firestore, setDoc } from 'firebase/firestore';
+import { getDoc, doc, Firestore, setDoc, collection, getDocs, QuerySnapshot, DocumentData, deleteDoc, onSnapshot, onSnapshotsInSync } from 'firebase/firestore';
 import { firestore } from './firebase';
 
 export class firebase_store {
@@ -37,6 +37,27 @@ export class firebase_store {
     }
   }
 
+  static async getMutipleData(path: string): Promise<{
+    status: boolean;
+    data: QuerySnapshot<DocumentData> | null
+  }>{
+
+    const querySnapShot = await getDocs(collection(firestore, path));
+
+    if(!querySnapShot.empty) {
+      return {
+        status: true,
+        data: querySnapShot
+      };
+    }
+    else {
+      return {
+        status: false,
+        data: null
+      };
+    }
+  }
+
   static async updateData(path: string, key: string, data: any) {
     const docRef = doc(firestore, path, key);
     return setDoc(docRef, data)
@@ -44,6 +65,39 @@ export class firebase_store {
       return {
         status: true,
         message: "Entire Document has been updated successfully"
+      }
+    })
+    .catch((error) => {
+      return {
+        status: false,
+        message: error
+      }
+    });
+  }
+
+  static async createData(path: string, data: any, key: string) {
+    const docRef = doc(firestore, path, key);
+    return setDoc(docRef, data).then((docRef) => {
+      return {
+        status: true,
+        message: "Entire Document has been create successfully"
+      }
+    })
+    .catch((error) => {
+      return {
+        status: false,
+        message: error
+      }
+    });
+  }
+
+  static async removeData(path: string, key: string) {
+    const docRef = doc(firestore, path, key);
+
+    return deleteDoc(docRef).then((docRef) => {
+      return {
+        status: true,
+        message: "Entire Document has been deleted successfully"
       }
     })
     .catch((error) => {

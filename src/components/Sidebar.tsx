@@ -75,6 +75,12 @@ const sidebarNavItems = [
     ],
   },
   {
+    display: "Character",
+    icon: <ThirdPartyIcon />,
+    to: "/character/list",
+    section: "character",
+  },
+  {
     display: "Setting",
     icon: <SettingsIcon />,
     to: "/setting",

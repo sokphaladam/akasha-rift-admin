@@ -16,6 +16,7 @@ import { ContentBlock as ContentBlockF } from "./page/faq/ContentBlock";
 import { JoinTeamPage } from "./page/JoinTeamPage";
 import { ContentBlock as ContentBlockT } from "./page/team/ContenBlock";
 import { ContentBlock as ContentBlockR } from "./page/roadmap/ContenBlock";
+import Router from "./router";
 
 function AppLayout(props: PropsWithChildren<{}>) {
   return (
@@ -45,17 +46,7 @@ function VerifyAuth() {
   return (
     <AppLayout>
       <DialogComponent ref={(t) => Modal.setModal(t)} />
-      <Routes>
-        <Route path="/" element={<Blank />} />
-        <Route path="/block/logo" element={<LogoPage />} />
-        <Route path="/block/story" element={<StoryPage />} />
-        <Route path="/block/_bcharacter" element={<ContentBlockC />} />
-        <Route path="/block/_broadmap" element={<ContentBlockR />} />
-        <Route path="/block/_bteam" element={<ContentBlockT />} />
-        <Route path="/block/_bfaq" element={<ContentBlockF />} />
-        <Route path="/block/join_team" element={<JoinTeamPage />} />
-        <Route path="/setting" element={<SettingPage />} />
-      </Routes>
+      <Router />
     </AppLayout>
   );
 }
