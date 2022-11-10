@@ -76,7 +76,7 @@ export class firebase_store {
   }
 
   static async createData(path: string, data: any, key: string) {
-    const docRef = doc(firestore, path, key);
+    const docRef = doc(firestore, path, key.trim());
     return setDoc(docRef, data).then((docRef) => {
       return {
         status: true,

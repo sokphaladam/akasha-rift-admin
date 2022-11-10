@@ -36,7 +36,7 @@ export function CharacterList() {
   const onClickRemove = async (id: string) => {
     Modal.dialog({
       message: "Are you sure want to save data?",
-      title: "Confirm content block",
+      title: "Confirmation",
       buttons: [
         {
           title: "Yes",

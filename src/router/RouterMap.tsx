@@ -9,6 +9,10 @@ import { JoinTeamPage } from "../page/JoinTeamPage";
 import { SettingPage } from "../page/SettingPage";
 import { CharacterList } from "../page/character/CharacterList";
 import { CreateCharacter } from "../page/character/create";
+import { RoadMapList } from "../page/roadmap/RoadMapList";
+import { RoadMapForm } from "../page/roadmap/RoadMapForm";
+import { TeamForm } from "../page/team/TeamForm";
+import { TeamList } from "../page/team/TeamList";
 
 function Blank() {
   return <div>This is Blank page</div>;
@@ -62,5 +66,29 @@ export const RouteMap: RouteProps[] = [
   {
     path: "/character/edit/:id",
     element: <CreateCharacter />,
+  },
+  {
+    path: "/roadmap/list",
+    element: <RoadMapList />,
+  },
+  {
+    path: "/roadmap/create",
+    element: <RoadMapForm />,
+  },
+  {
+    path: "/roadmap/edit/:id",
+    element: <RoadMapForm />,
+  },
+  {
+    path: "/team/list",
+    element: <TeamList />,
+  },
+  {
+    path: "/team/create",
+    element: <TeamForm />,
+  },
+  {
+    path: "/team/edit/:id",
+    element: <TeamForm />,
   },
 ];

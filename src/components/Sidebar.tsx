@@ -81,6 +81,18 @@ const sidebarNavItems = [
     section: "character",
   },
   {
+    display: "RoadMap",
+    icon: <LayoutHierarchyIcon />,
+    to: "/roadmap/list",
+    section: "roadmap",
+  },
+  {
+    display: "Team Member",
+    icon: <MugshotIcon />,
+    to: "/team/list",
+    section: "team",
+  },
+  {
     display: "Setting",
     icon: <SettingsIcon />,
     to: "/setting",
