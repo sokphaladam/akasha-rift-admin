@@ -73,7 +73,13 @@ export function TeamList() {
           <Table>
             <Table.Head>
               <Table.TextHeaderCell className="text-right">
-                Profile
+                Profile Front
+              </Table.TextHeaderCell>
+              <Table.TextHeaderCell className="text-right">
+                Profile Back
+              </Table.TextHeaderCell>
+              <Table.TextHeaderCell className="text-right">
+                Name
               </Table.TextHeaderCell>
               <Table.TextHeaderCell>Link</Table.TextHeaderCell>
               <Table.TextHeaderCell textAlign="right">
@@ -87,8 +93,15 @@ export function TeamList() {
                     <Table.Cell>
                       <div style={{ display: "flex", alignItems: "center" }}>
                         <Avatar src={x.profile} name={x.name} size={40} />
-                        <small style={{ marginLeft: 10 }}>{x.name}</small>
                       </div>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <Avatar src={x.profile_back} name={x.name} size={40} />
+                      </div>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <small style={{ marginLeft: 10 }}>{x.name}</small>
                     </Table.Cell>
                     <Table.TextCell>
                       {x.link && (

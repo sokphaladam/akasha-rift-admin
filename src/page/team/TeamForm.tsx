@@ -13,6 +13,7 @@ export function TeamForm() {
   const navigate = useNavigate();
   const [team, setTeam] = useState({
     profile: "",
+    profile_back: "",
     name: "",
     info: "",
     link: "",
@@ -62,6 +63,7 @@ export function TeamForm() {
                     name: "",
                     info: "",
                     link: "",
+                    profile_back: "",
                   });
                   toaster.success(res.message);
                 }
@@ -93,11 +95,27 @@ export function TeamForm() {
                       fontSize: 14,
                     }}
                   >
-                    Profile
+                    Profile Front
                   </label>
                   <UploadFile
                     value={team.profile}
                     setValue={(e: any) => onChangeValue("profile", e)}
+                  />
+                </div>
+                <br />
+                <div>
+                  <label
+                    style={{
+                      color: "#101840",
+                      fontWeight: 500,
+                      fontSize: 14,
+                    }}
+                  >
+                    Profile Back
+                  </label>
+                  <UploadFile
+                    value={team.profile_back}
+                    setValue={(e: any) => onChangeValue("profile_back", e)}
                   />
                 </div>
                 <br />
