@@ -93,6 +93,12 @@ const sidebarNavItems = [
     section: "team",
   },
   {
+    display: "FAQ",
+    icon: <HelpIcon />,
+    to: "/faq/list",
+    section: "faq",
+  },
+  {
     display: "Setting",
     icon: <SettingsIcon />,
     to: "/setting",

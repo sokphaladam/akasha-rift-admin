@@ -13,6 +13,8 @@ import { RoadMapList } from "../page/roadmap/RoadMapList";
 import { RoadMapForm } from "../page/roadmap/RoadMapForm";
 import { TeamForm } from "../page/team/TeamForm";
 import { TeamList } from "../page/team/TeamList";
+import { FaqList } from "../page/faq/FaqList";
+import { FaqForm } from "../page/faq/FaqForm";
 
 function Blank() {
   return <div>This is Blank page</div>;
@@ -90,5 +92,17 @@ export const RouteMap: RouteProps[] = [
   {
     path: "/team/edit/:id",
     element: <TeamForm />,
+  },
+  {
+    path: "/faq/list",
+    element: <FaqList />,
+  },
+  {
+    path: "/faq/create",
+    element: <FaqForm />,
+  },
+  {
+    path: "/faq/edit/:id",
+    element: <FaqForm />,
   },
 ];
